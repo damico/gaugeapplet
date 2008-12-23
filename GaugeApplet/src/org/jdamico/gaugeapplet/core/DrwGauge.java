@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Label;
+import java.awt.RenderingHints;
 
 public class DrwGauge extends Applet {
 
@@ -11,6 +12,7 @@ public class DrwGauge extends Applet {
 	private int xBase = 100;
 	private int yBase = 100;
 	private double degrees = .0;
+	private Color bColor = null;
 	
     public DrwGauge() {
         this.setBackground(Color.WHITE);
@@ -22,6 +24,9 @@ public class DrwGauge extends Applet {
     	
     	double percentValue = Double.parseDouble(getParameter("percentValue"));
     	degrees = (180 * percentValue) / 100;
+    	
+    	String hexColor = getParameter("pointerColor");
+		bColor = getColorParameter(hexColor);
     	
     	
     	setLayout(null);
@@ -61,6 +66,11 @@ public class DrwGauge extends Applet {
     public void paint(Graphics g) {
 
     	Graphics2D g2d = (Graphics2D)g;
+    	
+    	g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+    	g2d.setRenderingHint( RenderingHints.KEY_RENDERING,    RenderingHints.VALUE_RENDER_QUALITY );
+
+    	g2d.setColor(bColor);
     	g2d.fillArc(6, 6, 188, 188, 0, 360);
         g2d.setColor(new Color(230, 230, 230));
         g2d.fillArc(10, 10, 180, 180, 0, 360);
@@ -74,7 +84,7 @@ public class DrwGauge extends Applet {
     	
     	g2d.setColor(Color.BLACK);
     	g2d.fillArc(85, 85, 32, 32, 0, 360);
-    	g2d.setColor(Color.DARK_GRAY);
+    	g2d.setColor(bColor);
     	g2d.fillArc(85, 85, 30, 30, 0, 360);
     	g2d.drawLine(30, 70, 19, 64);
         g2d.drawLine(170, 70, 187, 64);
@@ -95,5 +105,15 @@ public class DrwGauge extends Applet {
     	g2d.drawLine(xBase, yBase, nX, nY);
     	//System.out.println("[100,100]["+nX+","+nY+"]   "+a+"   "+b+"   "+c+"   x= "+(int)Math.round(x)+"   h= "+(int)Math.round(h)+"  "+Math.cos(Math.toRadians(angle)));
 
+    	    	
     }
+    
+    public Color getColorParameter(String strColor) {
+
+		int hexConverted = 0;
+		hexConverted = Integer.parseInt(strColor, 16);
+		Color returnColor = Color.decode(String.valueOf(hexConverted));
+
+		return returnColor;
+	}
 }
