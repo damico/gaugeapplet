@@ -21,9 +21,15 @@ public class DrwGauge extends Applet {
     
     
     public void init(){
-    	
+    	double percenValue2Draw = .0;
     	double percentValue = Double.parseDouble(getParameter("percentValue"));
-    	degrees = (180 * percentValue) / 100;
+    	
+    	if(percentValue == .0) percenValue2Draw = .1;
+    	else percenValue2Draw = percentValue;
+    	
+    	degrees = (180 * percenValue2Draw) / 100;
+    	
+    	
     	
     	String hexColor = getParameter("pointerColor");
 		bColor = getColorParameter(hexColor);
@@ -33,7 +39,7 @@ public class DrwGauge extends Applet {
     	
     	Label label_0 = new Label("0");
     	label_0.setBackground(new Color(230, 230, 230));
-    	label_0.setBounds(12, 95, 20, 10);
+    	label_0.setBounds(12, 95, 10, 10);
     	add(label_0);
     	
     	Label label_25 = new Label("25");
